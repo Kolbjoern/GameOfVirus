@@ -13,7 +13,8 @@ public:
 	{
 		EMPTY = 0,
 		GROUND = 1,
-		BORDER = 2
+		BORDER = 2,
+		GROUND_DESTROYED = 3
 	};
 
 	void init(int tileSize, int width, int height);
@@ -21,14 +22,14 @@ public:
 
 	void createHole(float worldX, float worldY, float radius);
 
-	std::vector<char>& getData();
+	std::vector<char>& getMapData();
 
 private:
 	void createCave();
 	void smoothCave();
 	int getSurroundingWallCount(int gridX, int gridY);
 
-	std::vector<char> m_data;
+	std::vector<char> m_mapData;
 	int m_tileSize;
 	int m_width;
 	int m_height;

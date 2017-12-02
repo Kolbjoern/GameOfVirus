@@ -16,7 +16,7 @@ void World::init(int tileSize, int width, int height)
 	m_width = width;
 	m_height = height;
 
-	m_data.resize(width * height);
+	m_mapData.resize(width * height);
 
 	createCave();
 
@@ -40,11 +40,11 @@ void World::createCave()
 			int index = y * m_width + x;
 
 			if (x == 0 || x == m_width - 1 || y == 0 || y == m_height - 1)
-				m_data[index] = TileType::BORDER;
+				m_mapData[index] = TileType::BORDER;
 			else if (randomFillPercent(randomGenerator) <= fillPercent)
-				m_data[index] = TileType::GROUND;
+				m_mapData[index] = TileType::GROUND;
 			else
-				m_data[index] = TileType::EMPTY;
+				m_mapData[index] = TileType::EMPTY;
 		}
 	}
 }
@@ -60,11 +60,11 @@ void World::smoothCave()
 			int neighborCount = getSurroundingWallCount(x, y);
 
 			if (x == 0 || x == m_width - 1 || y == 0 || y == m_height - 1)
-				m_data[index] = TileType::BORDER;
+				m_mapData[index] = TileType::BORDER;
 			else if (neighborCount > 4)
-				m_data[index] = TileType::GROUND;
+				m_mapData[index] = TileType::GROUND;
 			else if (neighborCount < 4)
-				m_data[index] = TileType::EMPTY;
+				m_mapData[index] = TileType::EMPTY;
 		}
 	}
 }
@@ -82,7 +82,7 @@ int World::getSurroundingWallCount(int gridX, int gridY)
 				{
 					int index = neighborY * m_width + neighborX;
 
-					if (m_data[index] == TileType::GROUND || m_data[index] == TileType::BORDER)
+					if (m_mapData[index] == TileType::GROUND || m_mapData[index] == TileType::BORDER)
 						wallCount += 1;
 				}
 			}
@@ -110,8 +110,8 @@ void World::createHole(float worldX, float worldY, float radius)
 		{
 			if (ny >= 0 && ny < m_height && i >= 0 && i < m_width)
 			{
-				if (m_data[ny*m_width + i] == TileType::GROUND)
-					m_data[ny*m_width + i] = TileType::EMPTY;
+				if (m_mapData[ny*m_width + i] == TileType::GROUND)
+					m_mapData[ny*m_width + i] = TileType::GROUND_DESTROYED;
 			}
 		}
 	};
@@ -158,7 +158,7 @@ void World::draw(sf::RenderWindow& window, sf::View& camera)
 		{
 			int index = y * m_width + x;
 
-			if (m_data[index] == TileType::GROUND) //dont draw the ground
+			if (m_mapData[index] == TileType::GROUND) //dont draw the ground
 				continue;
 
 			sf::Vector2f position1(x* m_tileSize, y * m_tileSize);
@@ -166,14 +166,23 @@ void World::draw(sf::RenderWindow& window, sf::View& camera)
 			sf::Vector2f position3((x* m_tileSize) + m_tileSize, (y * m_tileSize) + m_tileSize);
 			sf::Vector2f position4(x* m_tileSize, (y * m_tileSize) + m_tileSize);
 
-			if (m_data[index] == TileType::EMPTY)
+			if (m_mapData[index] == TileType::GROUND_DESTROYED)
+			{
+				sf::Color grey(220, 220, 220);
+
+				screenView.append(sf::Vertex(position1, grey));
+				screenView.append(sf::Vertex(position2, grey));
+				screenView.append(sf::Vertex(position3, grey));
+				screenView.append(sf::Vertex(position4, grey));
+			}
+			else if (m_mapData[index] == TileType::EMPTY)
 			{
 				screenView.append(sf::Vertex(position1, sf::Color::White));
 				screenView.append(sf::Vertex(position2, sf::Color::White));
 				screenView.append(sf::Vertex(position3, sf::Color::White));
 				screenView.append(sf::Vertex(position4, sf::Color::White));
 			}
-			else if (m_data[index] == TileType::BORDER)
+			else if (m_mapData[index] == TileType::BORDER)
 			{
 				if (x == 0 || x == m_width - 1)
 				{
@@ -198,7 +207,7 @@ void World::draw(sf::RenderWindow& window, sf::View& camera)
 	window.draw(screenView);
 }
 
-std::vector<char>& World::getData()
+std::vector<char>& World::getMapData()
 {
-	return m_data;
+	return m_mapData;
 }
