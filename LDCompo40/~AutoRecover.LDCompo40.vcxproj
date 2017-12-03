@@ -141,25 +141,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\components\InputComponent.cpp" />
+    <ClCompile Include="src\components\ControllerComponent.cpp" />
+    <ClCompile Include="src\objects\Gun.cpp" />
     <ClCompile Include="src\components\PhysicsComponent.cpp" />
     <ClCompile Include="src\FPSCounter.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\objects\Entity.cpp" />
-    <ClCompile Include="src\Player.cpp" />
-    <ClCompile Include="src\Projectile.cpp" />
+    <ClCompile Include="src\Entity.cpp" />
+    <ClCompile Include="src\objects\Gunslinger.cpp" />
+    <ClCompile Include="src\utils\RandomNumGen.cpp" />
+    <ClCompile Include="src\utils\VectorMath.cpp" />
     <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\components\InputComponent.h" />
+    <ClInclude Include="src\components\ControllerComponent.h" />
+    <ClInclude Include="src\objects\Gun.h" />
     <ClInclude Include="src\components\PhysicsComponent.h" />
     <ClInclude Include="src\FPSCounter.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\Globals.h" />
-    <ClInclude Include="src\objects\Entity.h" />
-    <ClInclude Include="src\Player.h" />
-    <ClInclude Include="src\Projectile.h" />
+    <ClInclude Include="src\Entity.h" />
+    <ClInclude Include="src\objects\Gunslinger.h" />
+    <ClInclude Include="src\utils\RandomNumGen.h" />
+    <ClInclude Include="src\utils\VectorMath.h" />
     <ClInclude Include="src\World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

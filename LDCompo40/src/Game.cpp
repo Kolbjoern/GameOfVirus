@@ -2,7 +2,8 @@
 
 #include "Globals.h"
 #include "components\PhysicsComponent.h"
-#include "components\InputComponent.h"
+#include "components\ControllerComponent.h"
+#include "utils\RandomNumGen.h"
 
 #include <SFML\Window\Event.hpp>
 
@@ -12,6 +13,7 @@ Game::Game()
 
 Game::~Game()
 {
+
 }
 
 void Game::run()
@@ -24,8 +26,7 @@ void Game::run()
 
 		handleInput();
 
-		if (m_window.hasFocus())
-			update(m_fpsCounter.getDeltaTime());
+		update(m_fpsCounter.getDeltaTime());
 
 		render();
 	}
@@ -33,6 +34,8 @@ void Game::run()
 
 void Game::init()
 {
+	RandomNumGen::getInstance().init(1337);
+
 	m_window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "LDCompo40", sf::Style::Default);
 	m_window.setFramerateLimit(FPS);
 	m_fpsCounter.init(FPS);
@@ -41,8 +44,19 @@ void Game::init()
 
 	m_world.init(TILE_SIZE, WORLD_WIDTH, WORLD_HEIGHT);
 
-	m_player.init(15.0f, sf::Color::Red, new InputComponent(), new PhysicsComponent());
-	m_player.setPosition(sf::Vector2f(120.0f, 100.0f));
+	m_player.init(15.0f, sf::Vector2f(120.0f, 100.0f));
+
+	Gun rapid;
+	rapid.init("Rapid", 5.0f, 0.05f, 1, 10.0f, 600.0f, 8.0f);
+	m_guns.push_back(rapid);
+
+	Gun spread;
+	spread.init("Spread", 7.5f, 0.8f, 15, 35.0f, 350.0f, 8.0f);
+	m_guns.push_back(spread);
+
+	Gun threeSixty;
+	threeSixty.init("360", 3.0f, 0.01f, 30, 180.0f, 1400.0f, 0.02f);
+	m_guns.push_back(threeSixty);
 }
 
 void Game::handleInput()
@@ -66,30 +80,9 @@ void Game::handleInput()
 
 void Game::update(float deltaTime)
 {
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-	{
-		sf::Vector2i pixelPos = sf::Mouse::getPosition(m_window);
-		sf::Vector2f mouseDir = sf::Vector2f((pixelPos.x + m_camera.getCenter().x - m_camera.getSize().x / 2), (pixelPos.y + m_camera.getCenter().y - m_camera.getSize().y / 2));
-		sf::Vector2f centerDir = m_player.getPosition() + sf::Vector2f(m_player.getRadius() / 2.0f, m_player.getRadius() / 2.0f);
-		sf::Vector2f direction = mouseDir - centerDir;
-		float directionLength = sqrt(direction.x * direction.x + direction.y * direction.y);
-		sf::Vector2f normalized;
+	m_world.update(deltaTime);
 
-		if (directionLength != 0)
-		{
-			normalized.x = direction.x / directionLength;
-			normalized.y = direction.y / directionLength;
-		}
-		
-		Entity p;
-		p.init(3.0f, sf::Color::Magenta, nullptr, new PhysicsComponent());
-		p.setPosition(centerDir);
-		p.setAcceleration(500.0f * normalized);
-		p.setIsBullet(true);
-		m_projectiles.emplace_back(p);
-	}
-
-	m_player.update(m_world, m_window, m_camera, deltaTime);
+	m_player.update(m_world, m_window, m_camera, m_guns, m_projectiles, deltaTime);
 
 	if (m_camera.getCenter() != m_player.getPosition())
 	{
@@ -118,12 +111,12 @@ void Game::render()
 
 	m_world.draw(m_window, m_camera);
 
-	for (int i = 0; i < m_projectiles.size(); i++)
+	m_player.draw(m_window);
+	
+	for (int i = 0; i < m_projectiles.size(); i++)	
 	{
 		m_projectiles[i].draw(m_window);
 	}
-
-	m_player.draw(m_window);
 
 	m_window.display();
 }

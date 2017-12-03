@@ -1,14 +1,16 @@
 #pragma once
 
 #include "../World.h"
-#include "../objects/Entity.h"
+#include "../Entity.h"
 
 class PhysicsComponent
 {
 public:
-	PhysicsComponent();
-	~PhysicsComponent();
+	virtual void update(Entity& entity, World& world, float deltaTime) = 0;
+};
 
-	void update(Entity& entity, World& world, float deltaTime);
+class ActorPhysicsComponent : public PhysicsComponent
+{
+	virtual void update(Entity& entity, World& world, float deltaTime);
 };
 

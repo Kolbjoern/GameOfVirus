@@ -1,6 +1,9 @@
 #include "World.h"
 
-#include <random>
+#include "utils\RandomNumGen.h"
+
+#include <algorithm>
+#include <iostream>
 
 World::World()
 {
@@ -17,20 +20,21 @@ void World::init(int tileSize, int width, int height)
 	m_height = height;
 
 	m_mapData.resize(width * height);
+	m_virusIndices.reserve(width * height);
+
+	m_virusSpreadTimer = 0.0f;
 
 	createCave();
 
 	for (int i = 0; i < 4; i++)
 		smoothCave();
+
+	//startSpreadVirus(500.0f, 200.0f);
+	startSpreadVirus(50.0f, 20.0f);
 }
 
 void World::createCave()
 {
-	std::mt19937 randomGenerator;
-	int seed = 1337;//time(nullptr);
-	randomGenerator.seed(seed);
-	std::uniform_int_distribution<int> randomFillPercent(0, 100);
-
 	int fillPercent = 48;
 
 	for (int x = 0; x < m_width; x++)
@@ -41,7 +45,7 @@ void World::createCave()
 
 			if (x == 0 || x == m_width - 1 || y == 0 || y == m_height - 1)
 				m_mapData[index] = TileType::BORDER;
-			else if (randomFillPercent(randomGenerator) <= fillPercent)
+			else if (RandomNumGen::getInstance().generateInteger(0, 100) <= fillPercent)
 				m_mapData[index] = TileType::GROUND;
 			else
 				m_mapData[index] = TileType::EMPTY;
@@ -57,43 +61,134 @@ void World::smoothCave()
 		{
 			int index = y * m_width + x;
 
-			int neighborCount = getSurroundingWallCount(x, y);
+			int adjacentCount = getSurroundingCount(x, y, true);
 
 			if (x == 0 || x == m_width - 1 || y == 0 || y == m_height - 1)
 				m_mapData[index] = TileType::BORDER;
-			else if (neighborCount > 4)
+			else if (adjacentCount > 4)
 				m_mapData[index] = TileType::GROUND;
-			else if (neighborCount < 4)
+			else if (adjacentCount < 4)
 				m_mapData[index] = TileType::EMPTY;
 		}
 	}
 }
 
-int World::getSurroundingWallCount(int gridX, int gridY)
+int World::getSurroundingCount(int gridX, int gridY, bool wall)
 {
-	int wallCount = 0;
-	for (int neighborX = gridX - 1; neighborX <= gridX + 1; neighborX++)
+	int adjacentCount = 0;
+	for (int adjacentX = gridX - 1; adjacentX <= gridX + 1; adjacentX++)
 	{
-		for (int neighborY = gridY - 1; neighborY <= gridY + 1; neighborY++)
+		for (int adjacentY = gridY - 1; adjacentY <= gridY + 1; adjacentY++)
 		{
-			if (neighborX >= 0 && neighborX < m_width && neighborY >= 0 && neighborY < m_height)
+			if (adjacentX >= 0 && adjacentX < m_width && adjacentY >= 0 && adjacentY < m_height)
 			{
-				if (neighborX != gridX || neighborY != gridY)
+				if (adjacentX != gridX || adjacentY != gridY)
 				{
-					int index = neighborY * m_width + neighborX;
+					int index = adjacentY * m_width + adjacentX;
 
-					if (m_mapData[index] == TileType::GROUND || m_mapData[index] == TileType::BORDER)
-						wallCount += 1;
+					if (wall)
+					{
+						if (m_mapData[index] == TileType::GROUND || m_mapData[index] == TileType::BORDER)
+							adjacentCount += 1;
+					}
+					else
+					{
+						if (m_mapData[index] == TileType::EMPTY || m_mapData[index] == TileType::GROUND_DESTROYED)
+							adjacentCount += 1;
+					}
 				}
 			}
 			else
-				wallCount++;
+				adjacentCount++;
 		}
 	}
-	return wallCount;
+	return adjacentCount;
 }
 
-void World::createHole(float worldX, float worldY, float radius)
+void World::startSpreadVirus(float tileX, float tileY)
+{
+	int index = tileY * m_width + tileX;
+
+	//make space for the virus initialization
+	createHole(tileX, tileY, 10.0f);
+
+	m_virusIndices.push_back(index);
+}
+
+void World::update(float deltaTime)
+{
+	m_virusSpreadTimer += deltaTime;
+
+	if (m_virusSpreadTimer > 0.5f)
+	{
+		m_virusSpreadTimer = 0.0f;
+
+		int numVirus = m_virusIndices.size();
+		int maxUpdates = 40;
+		int numUpdates = 0;
+		int loopIterations = 0;
+		
+		bool indices[8] = {false};
+
+		for (int i = 0; i < 4;)
+		{
+			int rand = RandomNumGen::getInstance().generateInteger(0, 7);
+
+			if (indices[rand] == false)
+			{
+				indices[rand] = true;
+				i++;
+			}
+		}
+
+		for (int i = m_currVirusIteration; i < numVirus; i++)
+		{
+			int indexstuff[8] = { 
+				m_virusIndices[i] - m_width - 1,
+				m_virusIndices[i] - m_width,
+				m_virusIndices[i] - m_width + 1,
+				m_virusIndices[i] - 1,
+				m_virusIndices[i] + 1,
+				m_virusIndices[i] + m_width - 1,
+				m_virusIndices[i] + m_width,
+				m_virusIndices[i] + m_width + 1 };
+
+			for (int j = 0; j < 8; j++)
+			{
+				if (indices[j] == false)
+					continue;
+
+				if (indexstuff[j] < 0 || indexstuff[j] > m_mapData.size() - 1)
+					continue;
+
+
+				if (m_mapData[indexstuff[j]] == TileType::EMPTY || m_mapData[indexstuff[j]] == TileType::GROUND_DESTROYED)
+				{
+					m_virusIndices.push_back(indexstuff[j]);
+					m_mapData[indexstuff[j]] = TileType::VIRUS;
+					numUpdates++;
+				}
+			}
+			
+			loopIterations++;
+
+			if (numUpdates > maxUpdates)
+			{
+				numVirus -= maxUpdates;
+				break;
+			}
+		}
+
+		if (numUpdates > maxUpdates)
+			m_currVirusIteration += loopIterations;
+		else
+			m_currVirusIteration = numVirus;
+
+		std::cout << (numUpdates) << std::endl;
+	}
+}
+
+void World::createHole(float tileX, float tileY, float radius)
 {
 	// bresenham circle
 	int x = 0;
@@ -110,18 +205,61 @@ void World::createHole(float worldX, float worldY, float radius)
 		{
 			if (ny >= 0 && ny < m_height && i >= 0 && i < m_width)
 			{
-				if (m_mapData[ny*m_width + i] == TileType::GROUND)
-					m_mapData[ny*m_width + i] = TileType::GROUND_DESTROYED;
+				int index = ny*m_width + i;
+
+				if (m_mapData[index] == TileType::GROUND)
+					m_mapData[index] = TileType::GROUND_DESTROYED;
+				else if (m_mapData[index] == TileType::VIRUS)
+					m_mapData[index] = TileType::GROUND_DESTROYED;
 			}
 		}
 	};
 
 	while (y >= x)
 	{
-		drawline(worldX - x, worldX + x, worldY - y);
-		drawline(worldX - y, worldX + y, worldY - x);
-		drawline(worldX - x, worldX + x, worldY + y);
-		drawline(worldX - y, worldX + y, worldY + x);
+		drawline(tileX - x, tileX + x, tileY - y);
+		drawline(tileX - y, tileX + y, tileY - x);
+		drawline(tileX - x, tileX + x, tileY + y);
+		drawline(tileX - y, tileX + y, tileY + x);
+
+		if (p < 0)
+			p += 4 * x++ + 6;
+		else
+			p += 4 * (x++ - y--) + 10;
+	}
+}
+
+void World::createGroundMass(float tileX, float tileY, float radius)
+{
+	// bresenham circle
+	int x = 0;
+	int y = radius;
+	int p = 3 - 2 * radius;
+
+	if (!radius)
+		return;
+
+	auto drawline = [&](int sx, int ex, int ny)
+	{
+
+		for (int i = sx; i < ex; i++)
+		{
+			if (ny >= 0 && ny < m_height && i >= 0 && i < m_width)
+			{
+				int index = ny*m_width + i;
+
+				if (m_mapData[index] == TileType::EMPTY || m_mapData[index] == TileType::GROUND_DESTROYED || m_mapData[index] == TileType::VIRUS)
+					m_mapData[index] = TileType::GROUND;
+			}
+		}
+	};
+
+	while (y >= x)
+	{
+		drawline(tileX - x, tileX + x, tileY - y);
+		drawline(tileX - y, tileX + y, tileY - x);
+		drawline(tileX - x, tileX + x, tileY + y);
+		drawline(tileX - y, tileX + y, tileY + x);
 
 		if (p < 0)
 			p += 4 * x++ + 6;
@@ -200,6 +338,13 @@ void World::draw(sf::RenderWindow& window, sf::View& camera)
 					screenView.append(sf::Vertex(position3, sf::Color::White));
 					screenView.append(sf::Vertex(position4, sf::Color::White));
 				}
+			}
+			else if (m_mapData[index] == TileType::VIRUS)
+			{
+				screenView.append(sf::Vertex(position1, sf::Color::Green));
+				screenView.append(sf::Vertex(position2, sf::Color::Green));
+				screenView.append(sf::Vertex(position3, sf::Color::Green));
+				screenView.append(sf::Vertex(position4, sf::Color::Green));
 			}
 		}
 	}

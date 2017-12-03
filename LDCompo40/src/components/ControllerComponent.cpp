@@ -1,16 +1,8 @@
-#include "InputComponent.h"
+#include "ControllerComponent.h"
 
 #include <SFML\Window\Keyboard.hpp>
 
-InputComponent::InputComponent()
-{
-}
-
-InputComponent::~InputComponent()
-{
-}
-
-void InputComponent::update(Entity& entity, float deltaTime)
+void PlayerControllerComponent::update(Entity& entity, float deltaTime)
 {
 	static const float MOVE_ACCELERATION = 5.0f;
 	sf::Vector2f newAcceleration(entity.getAcceleration());

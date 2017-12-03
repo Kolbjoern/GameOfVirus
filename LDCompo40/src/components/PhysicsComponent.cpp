@@ -2,15 +2,7 @@
 
 #include "../Globals.h"
 
-PhysicsComponent::PhysicsComponent()
-{
-}
-
-PhysicsComponent::~PhysicsComponent()
-{
-}
-
-void PhysicsComponent::update(Entity& entity, World& world, float deltaTime)
+void ActorPhysicsComponent::update(Entity& entity, World& world, float deltaTime)
 {
 	if (!entity.getIsBullet())
 	{
@@ -71,7 +63,12 @@ void PhysicsComponent::update(Entity& entity, World& world, float deltaTime)
 			world.createHole(nextPos.x / TILE_SIZE, nextPos.y / TILE_SIZE, 3.0f);
 			entity.setIsDead(true);
 		}
-		else if (!entity.getIsBullet())
+		else if (entity.getIsMass())
+		{
+			world.createGroundMass(nextPos.x / TILE_SIZE, nextPos.y / TILE_SIZE, 5.0f);
+			entity.setIsDead(true);
+		}
+		else
 		{
 			entity.setVelocity(sf::Vector2f(friction * (-2.0f * dot * (response.x / magResponse) + entity.getVelocity().x),
 											friction * (-2.0f * dot * (response.y / magResponse) + entity.getVelocity().y)));
@@ -81,6 +78,6 @@ void PhysicsComponent::update(Entity& entity, World& world, float deltaTime)
 		entity.setPosition(nextPos);
 
 	// slow down
-	if (!entity.getIsBullet())
+	if (!entity.getIsBullet() && !entity.getIsMass())
 		entity.setVelocity(entity.getVelocity() * 0.98f);
 }
