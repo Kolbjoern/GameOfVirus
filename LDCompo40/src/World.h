@@ -28,6 +28,9 @@ public:
 	std::vector<char>& getMapData();
 
 private:
+	void updateVirus();
+	void updateVirusReactivation();
+
 	void createCave();
 	void smoothCave();
 	int getSurroundingCount(int gridX, int gridY, bool wall);
@@ -39,6 +42,11 @@ private:
 	int m_height;
 	float m_virusSpreadTimer;
 	int m_currVirusIteration;
+	int m_currReactivateVirusIteration;
+	bool m_currentlyReactivatingVirus;
+	bool m_virusIsIsolated;
+	int m_virusesBeforeReactivate;
+	int m_virusesAfterReactivate;
 
 	std::vector<int> m_virusIndices;
 };

@@ -3,7 +3,6 @@
 #include "utils\RandomNumGen.h"
 
 #include <algorithm>
-#include <iostream>
 
 World::World()
 {
@@ -23,6 +22,12 @@ void World::init(int tileSize, int width, int height)
 	m_virusIndices.reserve(width * height);
 
 	m_virusSpreadTimer = 0.0f;
+	m_currVirusIteration = 0;
+	m_currReactivateVirusIteration = 0;
+	m_currentlyReactivatingVirus = false;
+	m_virusIsIsolated = false;
+	m_virusesBeforeReactivate = -5;
+	m_virusesAfterReactivate= -10;
 
 	createCave();
 
@@ -119,72 +124,114 @@ void World::update(float deltaTime)
 {
 	m_virusSpreadTimer += deltaTime;
 
-	if (m_virusSpreadTimer > 0.5f)
+	if (!m_virusIsIsolated && m_virusSpreadTimer > 0.5f)
 	{
 		m_virusSpreadTimer = 0.0f;
 
-		int numVirus = m_virusIndices.size();
-		int maxUpdates = 40;
-		int numUpdates = 0;
-		int loopIterations = 0;
-		
-		bool indices[8] = {false};
+		if (m_currentlyReactivatingVirus)
+			updateVirusReactivation();
+		else
+			updateVirus();
+	}
+}
 
-		for (int i = 0; i < 4;)
+void World::updateVirus()
+{
+	int numVirus = m_virusIndices.size();
+	int maxUpdates = 40;
+	int numUpdates = 0;
+	int loopIterations = 0;
+	bool anyVirusAdded = false;
+
+	bool indices[8] = { false };
+
+	for (int i = 0; i < 4;)
+	{
+		int rand = RandomNumGen::getInstance().generateInteger(0, 7);
+
+		if (indices[rand] == false)
 		{
-			int rand = RandomNumGen::getInstance().generateInteger(0, 7);
+			indices[rand] = true;
+			i++;
+		}
+	}
 
-			if (indices[rand] == false)
+	for (int i = m_currVirusIteration; i < numVirus; i++)
+	{
+		int indexstuff[8] = {
+			m_virusIndices[i] - m_width - 1,
+			m_virusIndices[i] - m_width,
+			m_virusIndices[i] - m_width + 1,
+			m_virusIndices[i] - 1,
+			m_virusIndices[i] + 1,
+			m_virusIndices[i] + m_width - 1,
+			m_virusIndices[i] + m_width,
+			m_virusIndices[i] + m_width + 1 };
+
+		for (int j = 0; j < 8; j++)
+		{
+			if (indices[j] == false)
+				continue;
+
+			if (indexstuff[j] < 0 || indexstuff[j] > m_mapData.size() - 1)
+				continue;
+
+			if (m_mapData[indexstuff[j]] == TileType::EMPTY || m_mapData[indexstuff[j]] == TileType::GROUND_DESTROYED)
 			{
-				indices[rand] = true;
-				i++;
+				m_virusIndices.push_back(indexstuff[j]);
+				m_mapData[indexstuff[j]] = TileType::VIRUS;
+				numUpdates++;
 			}
 		}
 
-		for (int i = m_currVirusIteration; i < numVirus; i++)
-		{
-			int indexstuff[8] = { 
-				m_virusIndices[i] - m_width - 1,
-				m_virusIndices[i] - m_width,
-				m_virusIndices[i] - m_width + 1,
-				m_virusIndices[i] - 1,
-				m_virusIndices[i] + 1,
-				m_virusIndices[i] + m_width - 1,
-				m_virusIndices[i] + m_width,
-				m_virusIndices[i] + m_width + 1 };
-
-			for (int j = 0; j < 8; j++)
-			{
-				if (indices[j] == false)
-					continue;
-
-				if (indexstuff[j] < 0 || indexstuff[j] > m_mapData.size() - 1)
-					continue;
-
-
-				if (m_mapData[indexstuff[j]] == TileType::EMPTY || m_mapData[indexstuff[j]] == TileType::GROUND_DESTROYED)
-				{
-					m_virusIndices.push_back(indexstuff[j]);
-					m_mapData[indexstuff[j]] = TileType::VIRUS;
-					numUpdates++;
-				}
-			}
-			
-			loopIterations++;
-
-			if (numUpdates > maxUpdates)
-			{
-				numVirus -= maxUpdates;
-				break;
-			}
-		}
+		loopIterations++;
 
 		if (numUpdates > maxUpdates)
-			m_currVirusIteration += loopIterations;
-		else
-			m_currVirusIteration = numVirus;
+		{
+			numVirus -= maxUpdates;
+			break;
+		}
+	}
 
-		std::cout << (numUpdates) << std::endl;
+	m_currVirusIteration += loopIterations;
+
+	if (m_virusesBeforeReactivate == m_virusesAfterReactivate && numUpdates == 0)
+	{
+		m_virusIsIsolated = true;
+	}
+
+	if (numUpdates == 0)
+	{
+		m_currentlyReactivatingVirus = true;
+		m_virusesBeforeReactivate = m_virusIndices.size();
+		m_virusIndices.clear();
+		m_virusIndices.reserve(m_width * m_height);
+		m_currVirusIteration = 0;
+	}
+}
+
+void World::updateVirusReactivation()
+{
+	int i;
+	// reactivate sleeping viruses
+	for (i = m_currReactivateVirusIteration; i < m_mapData.size(); i++)
+	{
+		if (m_mapData[i] == TileType::VIRUS)
+		{
+			m_virusIndices.push_back(i);
+		}
+
+		if (i > m_mapData.size()/4)
+			break;
+	}
+
+	m_currReactivateVirusIteration += i;
+
+	if (m_currReactivateVirusIteration >= m_mapData.size() - 1)
+	{
+		m_currReactivateVirusIteration = 0;
+		m_virusesAfterReactivate = m_virusIndices.size();
+		m_currentlyReactivatingVirus = false;
 	}
 }
 
