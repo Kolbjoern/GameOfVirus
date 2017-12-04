@@ -34,8 +34,8 @@ void World::init(int tileSize, int width, int height)
 	for (int i = 0; i < 4; i++)
 		smoothCave();
 
-	//startSpreadVirus(500.0f, 200.0f);
-	startSpreadVirus(50.0f, 20.0f);
+	startSpreadVirus(400.0f, 200.0f);
+	//startSpreadVirus(50.0f, 20.0f);
 }
 
 void World::createCave()
@@ -124,14 +124,22 @@ void World::update(float deltaTime)
 {
 	m_virusSpreadTimer += deltaTime;
 
-	if (!m_virusIsIsolated && m_virusSpreadTimer > 0.5f)
+	if (!m_virusIsDestroyed && m_virusSpreadTimer > 0.5f)
 	{
-		m_virusSpreadTimer = 0.0f;
+		if (!m_virusIsIsolated)
+		{
+			m_virusSpreadTimer = 0.0f;
 
-		if (m_currentlyReactivatingVirus)
-			updateVirusReactivation();
+			if (m_currentlyReactivatingVirus)
+				updateVirusReactivation();
+			else
+				updateVirus();
+		}
 		else
-			updateVirus();
+		{
+			if (checkIfVirusDead())
+				m_virusIsDestroyed = true;
+		}
 	}
 }
 
@@ -233,6 +241,18 @@ void World::updateVirusReactivation()
 		m_virusesAfterReactivate = m_virusIndices.size();
 		m_currentlyReactivatingVirus = false;
 	}
+}
+
+bool World::checkIfVirusDead()
+{
+	// reactivate sleeping viruses
+	for (int i = 0; i < m_mapData.size(); i++)
+	{
+		if (m_mapData[i] == TileType::VIRUS)
+			return false;
+	}
+
+	return true;
 }
 
 void World::createHole(float tileX, float tileY, float radius)
@@ -402,4 +422,14 @@ void World::draw(sf::RenderWindow& window, sf::View& camera)
 std::vector<char>& World::getMapData()
 {
 	return m_mapData;
+}
+
+bool World::getVirusIsIsolated()
+{
+	return m_virusIsIsolated;
+}
+
+bool World::getVirusIsDestroyed()
+{
+	return m_virusIsDestroyed;
 }

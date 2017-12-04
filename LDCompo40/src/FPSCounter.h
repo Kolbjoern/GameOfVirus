@@ -16,6 +16,7 @@ public:
 
 	float getCurrentFPS();
 	float getDeltaTime();
+	float getElapsedTime();
 
 private:
 	float m_fps;

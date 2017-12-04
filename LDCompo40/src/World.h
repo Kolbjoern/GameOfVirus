@@ -27,9 +27,13 @@ public:
 
 	std::vector<char>& getMapData();
 
+	bool getVirusIsIsolated();
+	bool getVirusIsDestroyed();
+
 private:
 	void updateVirus();
 	void updateVirusReactivation();
+	bool checkIfVirusDead();
 
 	void createCave();
 	void smoothCave();
@@ -45,6 +49,7 @@ private:
 	int m_currReactivateVirusIteration;
 	bool m_currentlyReactivatingVirus;
 	bool m_virusIsIsolated;
+	bool m_virusIsDestroyed;
 	int m_virusesBeforeReactivate;
 	int m_virusesAfterReactivate;
 

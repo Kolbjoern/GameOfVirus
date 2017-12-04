@@ -67,3 +67,8 @@ float FPSCounter::getDeltaTime()
 {
 	return m_elapsed.asSeconds();
 }
+
+float FPSCounter::getElapsedTime()
+{
+	return m_clock.getElapsedTime().asSeconds();
+}

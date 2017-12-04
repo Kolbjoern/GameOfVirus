@@ -48,3 +48,8 @@ void Gun::update(sf::Vector2f position, sf::Vector2f direction, std::vector<Enti
 		}
 	}
 }
+
+const std::string Gun::getName()
+{
+	return m_name;
+}

@@ -13,6 +13,7 @@ public:
 	void draw(sf::RenderWindow& window);
 
 	sf::Vector2f getPosition();
+	const int getCurrentGunIndex();
 
 private:
 	Entity m_entity;

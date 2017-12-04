@@ -9,6 +9,8 @@ public:
 	void init(std::string name, float radius, float fireRate, int numProjectiles, float spread, float speed, float bulletLifeTime);
 	void update(sf::Vector2f position, sf::Vector2f direction, std::vector<Entity>& projectiles, float& reloadTimer);
 
+	const std::string getName();
+
 private:
 	std::string m_name;
 	float m_radius;

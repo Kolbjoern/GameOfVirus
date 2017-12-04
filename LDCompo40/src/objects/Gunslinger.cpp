@@ -20,7 +20,7 @@ void Gunslinger::init(float radius, sf::Vector2f position)
 {
 	m_entity.init(radius, sf::Color::Red, new PlayerControllerComponent(), new ActorPhysicsComponent());
 	m_entity.setPosition(position);
-	m_currentGun = 0;
+	m_currentGun = 2;
 	m_reloadTimer = 0.0f;
 }
 
@@ -48,7 +48,7 @@ void Gunslinger::update(World& world, sf::RenderWindow& window, sf::View& camera
 		sf::Vector2f direction = mouseDir - centerDir;
 		sf::Vector2f normalized = VectorMath::normalize(direction);
 
-		if (m_currentGun != -1 && guns.size() > 0)
+		if (m_currentGun != -1 && guns.size() > 0 && m_currentGun < guns.size())
 		{
 			guns[m_currentGun].update(centerDir, normalized, projectiles, m_reloadTimer);
 		}
@@ -63,4 +63,9 @@ void Gunslinger::draw(sf::RenderWindow& window)
 sf::Vector2f Gunslinger::getPosition()
 {
 	return m_entity.getPosition();
+}
+
+const int Gunslinger::getCurrentGunIndex()
+{
+	return m_currentGun;
 }
