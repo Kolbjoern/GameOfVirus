@@ -50,6 +50,9 @@ void GamePlayScreen::init()
 	m_player.init(15.0f, sf::Vector2f(120.0f, 100.0f));
 	m_world.createGroundMass(120.0f/TILE_SIZE, 100.0f/TILE_SIZE, 10.0f);
 
+	m_virus.init(400, 200, &m_world);
+	m_virus.startSpreading();
+
 	Gun rapid;
 	rapid.init("[1] Rapid", 5.0f, 0.05f, 1, 10.0f, 600.0f, 8.0f);
 	m_guns.push_back(rapid);
@@ -66,7 +69,7 @@ void GamePlayScreen::init()
 	{
 		m_music.setVolume(70);
 		m_music.setLoop(true);
-		m_music.play();
+		//m_music.play();
 	}
 
 	if (m_font.loadFromFile("assets/font/prstartk.ttf"))
@@ -114,15 +117,16 @@ void GamePlayScreen::handleInput()
 
 void GamePlayScreen::update(float deltaTime)
 {
-	m_world.update(deltaTime);
+	//m_world.update(deltaTime);
+	m_virus.update(deltaTime);
 
-	if (m_world.getVirusIsIsolated())
+	if (m_virus.getIsIsolated())
 	{
 		m_infoText.setFillColor(sf::Color::Green);
 		m_infoText.setString("Virus is isolated! Now destroy it!");
 	}
 
-	if (m_world.getVirusIsDestroyed())
+	if (m_virus.getIsDestroyed())
 	{
 		m_infoText.setFillColor(sf::Color::Blue);
 

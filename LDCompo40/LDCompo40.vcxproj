@@ -149,6 +149,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\objects\Gunslinger.cpp" />
+    <ClCompile Include="src\objects\Virus.cpp" />
     <ClCompile Include="src\screens\GamePlayScreen.cpp" />
     <ClCompile Include="src\screens\MenuScreen.cpp" />
     <ClCompile Include="src\screens\ScreenManager.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="src\Globals.h" />
     <ClInclude Include="src\Entity.h" />
     <ClInclude Include="src\objects\Gunslinger.h" />
+    <ClInclude Include="src\objects\Virus.h" />
     <ClInclude Include="src\screens\GamePlayScreen.h" />
     <ClInclude Include="src\screens\IScreen.h" />
     <ClInclude Include="src\screens\MenuScreen.h" />

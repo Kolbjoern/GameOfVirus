@@ -19,23 +19,11 @@ void World::init(int tileSize, int width, int height)
 	m_height = height;
 
 	m_mapData.resize(width * height);
-	m_virusIndices.reserve(width * height);
-
-	m_virusSpreadTimer = 0.0f;
-	m_currVirusIteration = 0;
-	m_currReactivateVirusIteration = 0;
-	m_currentlyReactivatingVirus = false;
-	m_virusIsIsolated = false;
-	m_virusesBeforeReactivate = -5;
-	m_virusesAfterReactivate= -10;
 
 	createCave();
 
 	for (int i = 0; i < 4; i++)
 		smoothCave();
-
-	startSpreadVirus(400.0f, 200.0f);
-	//startSpreadVirus(50.0f, 20.0f);
 }
 
 void World::createCave()
@@ -108,151 +96,6 @@ int World::getSurroundingCount(int gridX, int gridY, bool wall)
 		}
 	}
 	return adjacentCount;
-}
-
-void World::startSpreadVirus(float tileX, float tileY)
-{
-	int index = tileY * m_width + tileX;
-
-	//make space for the virus initialization
-	createHole(tileX, tileY, 10.0f);
-
-	m_virusIndices.push_back(index);
-}
-
-void World::update(float deltaTime)
-{
-	m_virusSpreadTimer += deltaTime;
-
-	if (!m_virusIsDestroyed && m_virusSpreadTimer > 0.5f)
-	{
-		if (!m_virusIsIsolated)
-		{
-			m_virusSpreadTimer = 0.0f;
-
-			if (m_currentlyReactivatingVirus)
-				updateVirusReactivation();
-			else
-				updateVirus();
-		}
-		else
-		{
-			if (checkIfVirusDead())
-				m_virusIsDestroyed = true;
-		}
-	}
-}
-
-void World::updateVirus()
-{
-	int numVirus = m_virusIndices.size();
-	int maxUpdates = 40;
-	int numUpdates = 0;
-	int loopIterations = 0;
-	bool anyVirusAdded = false;
-
-	bool indices[8] = { false };
-
-	for (int i = 0; i < 4;)
-	{
-		int rand = RandomNumGen::getInstance().generateInteger(0, 7);
-
-		if (indices[rand] == false)
-		{
-			indices[rand] = true;
-			i++;
-		}
-	}
-
-	for (int i = m_currVirusIteration; i < numVirus; i++)
-	{
-		int indexstuff[8] = {
-			m_virusIndices[i] - m_width - 1,
-			m_virusIndices[i] - m_width,
-			m_virusIndices[i] - m_width + 1,
-			m_virusIndices[i] - 1,
-			m_virusIndices[i] + 1,
-			m_virusIndices[i] + m_width - 1,
-			m_virusIndices[i] + m_width,
-			m_virusIndices[i] + m_width + 1 };
-
-		for (int j = 0; j < 8; j++)
-		{
-			if (indices[j] == false)
-				continue;
-
-			if (indexstuff[j] < 0 || indexstuff[j] > m_mapData.size() - 1)
-				continue;
-
-			if (m_mapData[indexstuff[j]] == TileType::EMPTY || m_mapData[indexstuff[j]] == TileType::GROUND_DESTROYED)
-			{
-				m_virusIndices.push_back(indexstuff[j]);
-				m_mapData[indexstuff[j]] = TileType::VIRUS;
-				numUpdates++;
-			}
-		}
-
-		loopIterations++;
-
-		if (numUpdates > maxUpdates)
-		{
-			numVirus -= maxUpdates;
-			break;
-		}
-	}
-
-	m_currVirusIteration += loopIterations;
-
-	if (m_virusesBeforeReactivate == m_virusesAfterReactivate && numUpdates == 0)
-	{
-		m_virusIsIsolated = true;
-	}
-
-	if (numUpdates == 0)
-	{
-		m_currentlyReactivatingVirus = true;
-		m_virusesBeforeReactivate = m_virusIndices.size();
-		m_virusIndices.clear();
-		m_virusIndices.reserve(m_width * m_height);
-		m_currVirusIteration = 0;
-	}
-}
-
-void World::updateVirusReactivation()
-{
-	int i;
-	// reactivate sleeping viruses
-	for (i = m_currReactivateVirusIteration; i < m_mapData.size(); i++)
-	{
-		if (m_mapData[i] == TileType::VIRUS)
-		{
-			m_virusIndices.push_back(i);
-		}
-
-		if (i > m_mapData.size()/4)
-			break;
-	}
-
-	m_currReactivateVirusIteration += i;
-
-	if (m_currReactivateVirusIteration >= m_mapData.size() - 1)
-	{
-		m_currReactivateVirusIteration = 0;
-		m_virusesAfterReactivate = m_virusIndices.size();
-		m_currentlyReactivatingVirus = false;
-	}
-}
-
-bool World::checkIfVirusDead()
-{
-	// reactivate sleeping viruses
-	for (int i = 0; i < m_mapData.size(); i++)
-	{
-		if (m_mapData[i] == TileType::VIRUS)
-			return false;
-	}
-
-	return true;
 }
 
 void World::createHole(float tileX, float tileY, float radius)
@@ -419,17 +262,7 @@ void World::draw(sf::RenderWindow& window, sf::View& camera)
 	window.draw(screenView);
 }
 
-std::vector<char>& World::getMapData()
+std::vector<TileType>& World::getMapData()
 {
 	return m_mapData;
-}
-
-bool World::getVirusIsIsolated()
-{
-	return m_virusIsIsolated;
-}
-
-bool World::getVirusIsDestroyed()
-{
-	return m_virusIsDestroyed;
 }

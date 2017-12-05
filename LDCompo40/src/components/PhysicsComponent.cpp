@@ -43,7 +43,7 @@ void ActorPhysicsComponent::update(Entity& entity, World& world, float deltaTime
 
 		int index = (int)testPosition.y / TILE_SIZE * WORLD_WIDTH + (int)testPosition.x / TILE_SIZE;
 
-		if (world.getMapData()[index] != 0 && world.getMapData()[index] != 3)
+		if (world.getMapData()[index] != TileType::EMPTY && world.getMapData()[index] != TileType::GROUND_DESTROYED)
 		{
 			response += (nextPos + sf::Vector2f(entity.getRadius(), entity.getRadius())) - testPosition;
 			collision = true;

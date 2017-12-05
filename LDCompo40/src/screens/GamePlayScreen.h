@@ -5,6 +5,7 @@
 #include "../FPSCounter.h"
 #include "../World.h"
 #include "../Entity.h"
+#include "../objects/Virus.h"
 #include "../objects\Gunslinger.h"
 
 #include <SFML\Graphics\RenderWindow.hpp>
@@ -29,6 +30,7 @@ private:
 
 	FPSCounter m_fpsCounter;
 	World m_world;
+	Virus m_virus;
 	Gunslinger m_player;
 	std::vector<Gun> m_guns;
 
