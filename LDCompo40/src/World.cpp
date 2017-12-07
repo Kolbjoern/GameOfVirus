@@ -249,7 +249,7 @@ void World::draw(sf::RenderWindow& window, sf::View& camera)
 					screenView.append(sf::Vertex(position4, sf::Color::White));
 				}
 			}
-			else if (m_mapData[index] == TileType::VIRUS)
+			else if (m_mapData[index] == TileType::VIRUS || m_mapData[index] == TileType::VIRUS_UNIT)
 			{
 				screenView.append(sf::Vertex(position1, sf::Color::Green));
 				screenView.append(sf::Vertex(position2, sf::Color::Green));

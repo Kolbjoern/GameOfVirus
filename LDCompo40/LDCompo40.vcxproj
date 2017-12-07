@@ -144,36 +144,39 @@
     <ClCompile Include="src\components\ControllerComponent.cpp" />
     <ClCompile Include="src\objects\Gun.cpp" />
     <ClCompile Include="src\components\PhysicsComponent.cpp" />
-    <ClCompile Include="src\FPSCounter.cpp" />
+    <ClCompile Include="src\utils\FPSCounter.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\objects\Gunslinger.cpp" />
     <ClCompile Include="src\objects\Virus.cpp" />
-    <ClCompile Include="src\screens\GamePlayScreen.cpp" />
     <ClCompile Include="src\screens\MenuScreen.cpp" />
     <ClCompile Include="src\screens\ScreenManager.cpp" />
     <ClCompile Include="src\utils\RandomNumGen.cpp" />
     <ClCompile Include="src\utils\VectorMath.cpp" />
     <ClCompile Include="src\World.cpp" />
+    <ClCompile Include="src\TileShape.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\components\ControllerComponent.h" />
     <ClInclude Include="src\objects\Gun.h" />
     <ClInclude Include="src\components\PhysicsComponent.h" />
-    <ClInclude Include="src\FPSCounter.h" />
+    <ClInclude Include="src\utils\FPSCounter.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\Globals.h" />
     <ClInclude Include="src\Entity.h" />
     <ClInclude Include="src\objects\Gunslinger.h" />
     <ClInclude Include="src\objects\Virus.h" />
-    <ClInclude Include="src\screens\GamePlayScreen.h" />
     <ClInclude Include="src\screens\IScreen.h" />
     <ClInclude Include="src\screens\MenuScreen.h" />
     <ClInclude Include="src\screens\ScreenManager.h" />
     <ClInclude Include="src\utils\RandomNumGen.h" />
     <ClInclude Include="src\utils\VectorMath.h" />
     <ClInclude Include="src\World.h" />
+    <ClInclude Include="src\TileShape.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\shapeFiles\kShape.shape" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

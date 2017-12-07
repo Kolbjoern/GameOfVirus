@@ -1,7 +1,6 @@
 #include "MenuScreen.h"
 
 #include "ScreenManager.h"
-#include "GamePlayScreen.h"
 #include "../Globals.h"
 
 #include <SFML\Window\Event.hpp>
@@ -81,7 +80,7 @@ void MenuScreen::handleInput()
 					}
 					else
 					{
-						ScreenManager::getInstance().changeScreen(new GamePlayScreen());
+						//ScreenManager::getInstance().changeScreen(new GamePlayScreen());
 					}
 				}
 				break;

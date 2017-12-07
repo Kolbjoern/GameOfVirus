@@ -9,7 +9,8 @@ enum class TileType
 	GROUND = 1,
 	BORDER = 2,
 	GROUND_DESTROYED = 3,
-	VIRUS = 4
+	VIRUS = 4,
+	VIRUS_UNIT = 5
 };
 
 class World
