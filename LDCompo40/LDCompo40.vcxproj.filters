@@ -112,6 +112,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="src\shapeFiles\kShape.shape" />
+    <Text Include="src\shapeFiles\kShape.tish" />
   </ItemGroup>
 </Project>

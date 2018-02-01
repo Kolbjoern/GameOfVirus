@@ -176,7 +176,7 @@
     <ClInclude Include="src\TileShape.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="src\shapeFiles\kShape.shape" />
+    <Text Include="src\shapeFiles\kShape.tish" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

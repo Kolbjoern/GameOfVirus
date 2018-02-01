@@ -54,7 +54,7 @@ void Game::init()
 	//m_virus.startSpreading();
 
 	//m_shape.setPosition(20.0f, 40.0f);
-	m_shape.init("src/shapeFiles/kShape.tish", sf::Vector2i(10, 10));
+	m_shape.init("src/shapeFiles/kShape.tish", sf::Vector2i(10, 10), &m_world);
 
 	Gun rapid;
 	rapid.init("[1] Rapid", 5.0f, 0.05f, 1, 10.0f, 600.0f, 8.0f);
@@ -115,7 +115,7 @@ void Game::update(float deltaTime)
 {
 	//m_world.update(deltaTime);
 	m_virus.update(deltaTime);
-	m_shape.update(m_world);
+	m_shape.update(deltaTime);
 
 	if (m_virus.getIsIsolated())
 	{

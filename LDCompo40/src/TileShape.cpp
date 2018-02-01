@@ -13,9 +13,10 @@ TileShape::~TileShape()
 {
 }
 
-void TileShape::init(std::string dataFile, sf::Vector2i position)
+void TileShape::init(std::string dataFile, sf::Vector2i position, World* world)
 {
 	m_position = position;
+	m_world = world;
 
 	std::ifstream file(dataFile);
 
@@ -45,32 +46,29 @@ void TileShape::init(std::string dataFile, sf::Vector2i position)
 	m_width = width;
 	m_height = height;
 
-	/*m_vertices.setPrimitiveType(sf::Quads);
-	m_vertices.resize(m_width * m_height);
+	m_oldMapData.resize(m_width * m_height);
 
+	// draw initial position
+	
 	for (int x = 0; x < m_width; x++)
 	{
 		for (int y = 0; y < m_height; y++)
 		{
 			int index = y * m_width + x;
-
+			
 			if (m_shapeData[index] == '0')
 				continue;
 
-			sf::Vector2f position1(m_position.x + (x * TILE_SIZE),				m_position.y + (y * TILE_SIZE));
-			sf::Vector2f position2(m_position.x + ((x* TILE_SIZE) + TILE_SIZE),	m_position.y + (y * TILE_SIZE));
-			sf::Vector2f position3(m_position.x + ((x* TILE_SIZE) + TILE_SIZE),	m_position.y + ((y * TILE_SIZE) + TILE_SIZE));
-			sf::Vector2f position4(m_position.x + (x* TILE_SIZE),				m_position.y + ((y * TILE_SIZE) + TILE_SIZE));
+			int worldIndex = (m_position.y + y) * WORLD_WIDTH + (m_position.x + x);
 
-			m_vertices.append(sf::Vertex(position1, sf::Color::Green));
-			m_vertices.append(sf::Vertex(position2, sf::Color::Green));
-			m_vertices.append(sf::Vertex(position3, sf::Color::Green));
-			m_vertices.append(sf::Vertex(position4, sf::Color::Green));
+			m_oldMapData[index] = m_world->getMapData()[worldIndex];
+
+			m_world->getMapData()[worldIndex] = TileType::VIRUS;
 		}
-	}*/
+	}
 }
 
-void TileShape::update(World& world)
+void TileShape::update(float deltaTime)
 {
 	// reset old position, should save the old mapDAta!
 	for (int x = 0; x < m_width; x++)
@@ -78,35 +76,40 @@ void TileShape::update(World& world)
 		for (int y = 0; y < m_height; y++)
 		{
 			int index = y * m_width + x;
+			int worldIndex = (m_position.y + y) * WORLD_WIDTH + (m_position.x + x);
 
-			if (m_shapeData[index] == '0')
-				continue;
+			//if (m_shapeData[index] == '0')
+			//	continue;
 
-			world.getMapData()[(m_position.y + y) * WORLD_WIDTH + (m_position.x + x)] = TileType::EMPTY;
+			if (m_world->getMapData()[worldIndex] == TileType::VIRUS)
+			{
+				m_shapeData[index] = '1';
+				m_world->getMapData()[worldIndex] = m_oldMapData[index];
+			}
+			else
+				m_shapeData[index] = '0';
+
+			//m_world->getMapData()[worldIndex] = m_oldMapData[index];
+
+			//world.getMapData()[(m_position.y + y) * WORLD_WIDTH + (m_position.x + x)] = TileType::EMPTY;
 		}
 	}
 
-	//update position
-	//m_position.x += 1;
-	
 	// draw on new position
 	for (int x = 0; x < m_width; x++)
 	{
 		for (int y = 0; y < m_height; y++)
 		{
 			int index = y * m_width + x;
+			int worldIndex = (m_position.y + y) * WORLD_WIDTH + (m_position.x + x);
+
+			m_oldMapData[index] = m_world->getMapData()[worldIndex];
 
 			if (m_shapeData[index] == '0')
 				continue;
 
-			world.getMapData()[(m_position.y + y) * WORLD_WIDTH + (m_position.x + x)] = TileType::VIRUS_UNIT;
+			//m_oldMapData[index] = m_world->getMapData()[worldIndex];
+			m_world->getMapData()[worldIndex] = TileType::VIRUS;
 		}
 	}
 }
-
-/*void TileShape::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	states.transform *= getTransform();
-	states.texture = NULL;
-	target.draw(m_vertices, states);
-}*/
