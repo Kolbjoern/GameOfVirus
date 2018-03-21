@@ -57,7 +57,7 @@ void Virus::startSpreading()
 	int index = m_initPoint.y * WORLD_WIDTH + m_initPoint.x;
 
 	//make space for the virus initialization
-	m_world->createHole(m_initPoint.x, m_initPoint.y, 10.0f);
+	m_world->createHole(m_initPoint.x, m_initPoint.y, 10);
 
 	m_infectedTileIndices.push_back(index);
 }

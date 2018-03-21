@@ -42,8 +42,5 @@ private:
 	std::vector<sf::Text> m_wepTxt;
 
 	bool m_done;
-
-	// Testing
-	TileShape m_shape;
 };
 

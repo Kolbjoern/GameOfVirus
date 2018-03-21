@@ -48,25 +48,14 @@ void Game::init()
 	m_world.init(TILE_SIZE, WORLD_WIDTH, WORLD_HEIGHT);
 
 	m_player.init(15.0f, sf::Vector2f(120.0f, 100.0f));
-	m_world.createGroundMass(120.0f / TILE_SIZE, 100.0f / TILE_SIZE, 10.0f);
+	m_world.createGroundMass(120 / TILE_SIZE, 100 / TILE_SIZE, 10);
 
 	m_virus.init(400, 200, &m_world);
-	//m_virus.startSpreading();
-
-	//m_shape.setPosition(20.0f, 40.0f);
-	m_shape.init("src/shapeFiles/kShape.tish", sf::Vector2i(10, 10), &m_world);
+	m_virus.startSpreading();
 
 	Gun rapid;
 	rapid.init("[1] Rapid", 5.0f, 0.05f, 1, 10.0f, 600.0f, 8.0f);
 	m_guns.push_back(rapid);
-
-	Gun spread;
-	spread.init("[2] Spray", 7.5f, 0.05f, 10, 20.0f, 400.0f, 8.0f);
-	m_guns.push_back(spread);
-
-	Gun threeSixty;
-	threeSixty.init("[3] 360", 3.0f, 0.01f, 30, 180.0f, 1400.0f, 0.02f);
-	m_guns.push_back(threeSixty);
 
 	if (m_font.loadFromFile("assets/font/prstartk.ttf"))
 	{
@@ -113,9 +102,7 @@ void Game::handleInput()
 
 void Game::update(float deltaTime)
 {
-	//m_world.update(deltaTime);
 	m_virus.update(deltaTime);
-	m_shape.update(deltaTime);
 
 	if (m_virus.getIsIsolated())
 	{
@@ -178,8 +165,6 @@ void Game::render()
 	m_world.draw(m_window, m_camera);
 
 	m_player.draw(m_window);
-
-	//m_window.draw(m_shape);
 
 	for (int i = 0; i < m_projectiles.size(); i++)
 	{

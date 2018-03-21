@@ -22,8 +22,8 @@ public:
 	void init(int tileSize, int width, int height);
 	void draw(sf::RenderWindow& window, sf::View& camera);
 
-	void createHole(float tileX, float tileY, float radius);
-	void createGroundMass(float tileX, float tileY, float radius);
+	void createHole(int tileX, int tileY, int radius);
+	void createGroundMass(int tileX, int tileY, int radius);
 
 	std::vector<TileType>& getMapData();
 

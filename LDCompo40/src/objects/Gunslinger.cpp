@@ -20,7 +20,7 @@ void Gunslinger::init(float radius, sf::Vector2f position)
 {
 	m_entity.init(radius, sf::Color::Red, new PlayerControllerComponent(), new ActorPhysicsComponent());
 	m_entity.setPosition(position);
-	m_currentGun = 2;
+	m_currentGun = 0;
 	m_reloadTimer = 0.0f;
 }
 
@@ -30,16 +30,13 @@ void Gunslinger::update(World& world, sf::RenderWindow& window, sf::View& camera
 	
 	m_reloadTimer += deltaTime;
 
-	if (window.hasFocus() && (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1) && guns.size() >= 0))
+	if (!window.hasFocus())
+		return;
+
+	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Num1) && guns.size() >= 0))
 		m_currentGun = 0;
 
-	if (window.hasFocus() && (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2) && guns.size() >= 1))
-		m_currentGun = 1;
-
-	if (window.hasFocus() && (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3) && guns.size() >= 2))
-		m_currentGun = 2;
-
-	if (window.hasFocus() && (sf::Mouse::isButtonPressed(sf::Mouse::Left) || sf::Mouse::isButtonPressed(sf::Mouse::Right)))
+	if ((sf::Mouse::isButtonPressed(sf::Mouse::Left) || sf::Mouse::isButtonPressed(sf::Mouse::Right)))
 	{
 		sf::Vector2i windowPos = sf::Mouse::getPosition(window);
 		sf::Vector2f mouseDir = sf::Vector2f((windowPos.x + camera.getCenter().x - camera.getSize().x / 2), (windowPos.y + camera.getCenter().y - camera.getSize().y / 2));

@@ -98,7 +98,7 @@ int World::getSurroundingCount(int gridX, int gridY, bool wall)
 	return adjacentCount;
 }
 
-void World::createHole(float tileX, float tileY, float radius)
+void World::createHole(int tileX, int tileY, int radius)
 {
 	// bresenham circle
 	int x = 0;
@@ -139,7 +139,7 @@ void World::createHole(float tileX, float tileY, float radius)
 	}
 }
 
-void World::createGroundMass(float tileX, float tileY, float radius)
+void World::createGroundMass(int tileX, int tileY, int radius)
 {
 	// bresenham circle
 	int x = 0;

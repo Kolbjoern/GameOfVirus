@@ -25,7 +25,7 @@ private:
 
 	World* m_world;
 
-	sf::Vector2f m_initPoint;
+	sf::Vector2i m_initPoint;
 
 	std::vector<int> m_infectedTileIndices;
 

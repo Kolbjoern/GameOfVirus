@@ -60,12 +60,12 @@ void ActorPhysicsComponent::update(Entity& entity, World& world, float deltaTime
 
 		if (entity.getIsBullet())
 		{
-			world.createHole(nextPos.x / TILE_SIZE, nextPos.y / TILE_SIZE, 3.0f);
+			world.createHole(nextPos.x / TILE_SIZE, nextPos.y / TILE_SIZE, 3);
 			entity.setIsDead(true);
 		}
 		else if (entity.getIsMass())
 		{
-			world.createGroundMass(nextPos.x / TILE_SIZE, nextPos.y / TILE_SIZE, 5.0f);
+			world.createGroundMass(nextPos.x / TILE_SIZE, nextPos.y / TILE_SIZE, 5);
 			entity.setIsDead(true);
 		}
 		else
