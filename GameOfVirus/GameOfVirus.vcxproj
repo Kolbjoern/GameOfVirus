@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E20C1461-762A-4330-B8B0-C62DD659DA33}</ProjectGuid>
-    <RootNamespace>LDCompo40</RootNamespace>
+    <ProjectGuid>{68C55B55-AB65-4692-917F-C639A3F52248}</ProjectGuid>
+    <RootNamespace>GameOfVirus</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -92,8 +92,8 @@
       <AdditionalIncludeDirectories>$(SolutionDir)libs\SFML-2.4.2\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\SFML-2.4.2\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-audio-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\SFML-2.4.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-system-d.lib;sfml-network-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -104,8 +104,8 @@
       <AdditionalIncludeDirectories>$(SolutionDir)libs\SFML-2.4.2\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\SFML-2.4.2\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-audio-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\SFML-2.4.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-system-d.lib;sfml-network-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -120,8 +120,8 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\SFML-2.4.2\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-audio.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\SFML-2.4.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-system.lib;sfml-network.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -136,47 +136,21 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\SFML-2.4.2\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-audio.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\SFML-2.4.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-system.lib;sfml-network.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\components\ControllerComponent.cpp" />
-    <ClCompile Include="src\objects\Gun.cpp" />
-    <ClCompile Include="src\components\PhysicsComponent.cpp" />
-    <ClCompile Include="src\utils\FPSCounter.cpp" />
-    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\Client.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Entity.cpp" />
-    <ClCompile Include="src\objects\Gunslinger.cpp" />
-    <ClCompile Include="src\objects\Virus.cpp" />
-    <ClCompile Include="src\screens\MenuScreen.cpp" />
-    <ClCompile Include="src\screens\ScreenManager.cpp" />
-    <ClCompile Include="src\utils\RandomNumGen.cpp" />
-    <ClCompile Include="src\utils\VectorMath.cpp" />
-    <ClCompile Include="src\World.cpp" />
-    <ClCompile Include="src\TileShape.cpp" />
+    <ClCompile Include="src\network\PackageListener.cpp" />
+    <ClCompile Include="src\Server.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\components\ControllerComponent.h" />
-    <ClInclude Include="src\objects\Gun.h" />
-    <ClInclude Include="src\components\PhysicsComponent.h" />
-    <ClInclude Include="src\utils\FPSCounter.h" />
-    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\Client.h" />
     <ClInclude Include="src\Globals.h" />
-    <ClInclude Include="src\Entity.h" />
-    <ClInclude Include="src\objects\Gunslinger.h" />
-    <ClInclude Include="src\objects\Virus.h" />
-    <ClInclude Include="src\screens\IScreen.h" />
-    <ClInclude Include="src\screens\MenuScreen.h" />
-    <ClInclude Include="src\screens\ScreenManager.h" />
-    <ClInclude Include="src\utils\RandomNumGen.h" />
-    <ClInclude Include="src\utils\VectorMath.h" />
-    <ClInclude Include="src\World.h" />
-    <ClInclude Include="src\TileShape.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="src\shapeFiles\kShape.tish" />
+    <ClInclude Include="src\network\PackageListener.h" />
+    <ClInclude Include="src\Server.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
