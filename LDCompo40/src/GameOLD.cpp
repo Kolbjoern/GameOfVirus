@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "GameOLD.h"
 
 #include "Globals.h"
 #include "components\PhysicsComponent.h"
@@ -9,15 +9,15 @@
 
 #include <SFML\Window\Event.hpp>
 
-Game::Game()
+GameOLD::GameOLD()
 {
 }
 
-Game::~Game()
+GameOLD::~GameOLD()
 {
 }
 
-void Game::run()
+void GameOLD::run()
 {
 	init();
 
@@ -33,7 +33,7 @@ void Game::run()
 	}
 }
 
-void Game::init()
+void GameOLD::init()
 {
 	RandomNumGen::getInstance().init(1337);
 
@@ -76,7 +76,7 @@ void Game::init()
 	}
 }
 
-void Game::handleInput()
+void GameOLD::handleInput()
 {
 	sf::Event event;
 	while (m_window.pollEvent(event))
@@ -100,7 +100,7 @@ void Game::handleInput()
 	}
 }
 
-void Game::update(float deltaTime)
+void GameOLD::update(float deltaTime)
 {
 	m_virus.update(deltaTime);
 
@@ -158,7 +158,7 @@ void Game::update(float deltaTime)
 	}
 }
 
-void Game::render()
+void GameOLD::render()
 {
 	m_window.clear();
 

@@ -12,11 +12,11 @@
 #include <SFML\Graphics\Font.hpp>
 #include <SFML\Graphics\Text.hpp>
 
-class Game
+class GameOLD
 {
 public:
-	Game();
-	~Game();
+	GameOLD();
+	~GameOLD();
 
 	void run();
 
