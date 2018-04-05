@@ -1,8 +1,9 @@
 #include "StateMachine.h"
 
-void StateMachine::init()
+void StateMachine::init(sf::RenderWindow& window)
 {
 	m_currentState = nullptr;
+	m_window = &window;
 }
 
 void StateMachine::handleInput()
@@ -20,16 +21,15 @@ void StateMachine::render()
 	m_currentState->render();
 }
 
-void StateMachine::add(std::string name, IGameState* state)
+void StateMachine::add(std::string name, IGameState& state)
 {
-	m_states[name] = state;
+	m_states[name] = &state;
 }
 
-void StateMachine::change(std::string name, sf::RenderWindow& window)
+void StateMachine::change(std::string name)
 {
 	if (m_currentState != nullptr)
 		m_currentState->exit();
 
 	m_currentState = m_states.at(name);
-	m_currentState->init(window);
 }

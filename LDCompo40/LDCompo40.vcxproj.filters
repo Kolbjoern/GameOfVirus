@@ -51,13 +51,13 @@
     <ClCompile Include="src\objects\Virus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\utils\FPSCounter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\TileShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\GameOLD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\FPSCounter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,13 +101,13 @@
     <ClInclude Include="src\objects\Virus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\utils\FPSCounter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\TileShape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GameOLD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\FPSCounter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

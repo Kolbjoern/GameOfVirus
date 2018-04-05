@@ -1,11 +1,11 @@
 #pragma once
 
-#include "IState.h"
+#include "IGameState.h"
 
-class NullState : public IState
+class NullState : public IGameState
 {
 public:
-	virtual void init(sf::RenderWindow& window) override
+	virtual void init(StateMachine& stateMachine, sf::RenderWindow& window) override
 	{
 
 	}

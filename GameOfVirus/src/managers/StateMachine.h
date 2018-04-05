@@ -10,14 +10,17 @@
 class StateMachine
 {
 public:
-	void init();
+	void init(sf::RenderWindow& window);
 	void handleInput();
 	void update(float deltaTime);
 	void render();
 
-	void add(std::string name, IGameState* state);
-	void change(std::string name, sf::RenderWindow& window/*TODO::ADD optional parameters*/);
+	void add(std::string name, IGameState& state);
+	void change(std::string name/*TODO::ADD optional parameters*/);
+
+	IGameState* m_currentState;
+
+	sf::RenderWindow* m_window;
 
 	std::unordered_map<std::string, IGameState*> m_states;
-	IGameState* m_currentState;
 };

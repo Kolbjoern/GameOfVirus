@@ -1,9 +1,12 @@
 #include "MenuState.h"
 
+#include "../../managers/StateMachine.h"
+
 #include <SFML\Window\Event.hpp>
 
-void MenuState::init(sf::RenderWindow& window)
+void MenuState::init(StateMachine& stateMachine, sf::RenderWindow& window)
 {
+	m_stateMachine = &stateMachine;
 	m_window = &window;
 
 	if (m_font.loadFromFile("assets/font/prstartk.ttf"))
@@ -22,8 +25,17 @@ void MenuState::handleInput()
 	sf::Event event;
 	while (m_window->pollEvent(event))
 	{
-		if (event.type == sf::Event::Closed)
-			m_window->close();
+		switch (event.type)
+		{
+			case sf::Event::Closed:
+				m_window->close();
+				break;
+
+			case sf::Event::KeyReleased:
+				if (event.key.code == sf::Keyboard::Num1)
+					m_stateMachine->change("gameWorld");
+				break;
+		}
 	}
 }
 
