@@ -8,8 +8,10 @@ void Game::run()
 
 	while (m_window.isOpen())
 	{
+		m_loopTimer.tick();
+		
 		m_stateMachine.handleInput();
-		m_stateMachine.update(0.0f);
+		m_stateMachine.update(m_loopTimer.getDeltaTime());
 		m_stateMachine.render();
 	}
 }
@@ -27,4 +29,6 @@ void Game::init()
 	m_stateMachine.add("gameWorld", m_world);
 
 	m_stateMachine.change("mainMenu");
+
+	m_loopTimer.init();
 }

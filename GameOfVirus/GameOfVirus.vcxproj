@@ -130,6 +130,7 @@
     <ClCompile Include="src\managers\StateMachine.cpp" />
     <ClCompile Include="src\states\game\MenuState.cpp" />
     <ClCompile Include="src\states\game\WorldState.cpp" />
+    <ClCompile Include="src\utils\LoopTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h" />
@@ -138,6 +139,7 @@
     <ClInclude Include="src\states\game\MenuState.h" />
     <ClInclude Include="src\states\game\NullState.h" />
     <ClInclude Include="src\states\game\WorldState.h" />
+    <ClInclude Include="src\utils\LoopTimer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
