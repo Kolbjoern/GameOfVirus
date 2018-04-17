@@ -125,15 +125,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\components\InputComponent.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\managers\StateMachine.cpp" />
+    <ClCompile Include="src\objects\Object.cpp" />
     <ClCompile Include="src\states\game\MenuState.cpp" />
     <ClCompile Include="src\states\game\WorldState.cpp" />
     <ClCompile Include="src\utils\LoopTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\components\IComponent.h" />
+    <ClInclude Include="src\components\InputComponent.h" />
     <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\objects\Object.h" />
     <ClInclude Include="src\states\game\IGameState.h" />
     <ClInclude Include="src\managers\StateMachine.h" />
     <ClInclude Include="src\states\game\MenuState.h" />

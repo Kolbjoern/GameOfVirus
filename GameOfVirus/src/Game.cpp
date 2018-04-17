@@ -18,7 +18,10 @@ void Game::run()
 
 void Game::init()
 {
-	m_window.create(sf::VideoMode(1280, 720), "Game of Virus", sf::Style::Default);
+	sf::ContextSettings settings;
+	settings.antialiasingLevel = 8;
+
+	m_window.create(sf::VideoMode(1280, 720), "Game of Virus", sf::Style::Default, settings);
 	m_window.setFramerateLimit(60);
 
 	m_menu.init(m_stateMachine, m_window);
