@@ -54,6 +54,9 @@ sf::Color Object::getColor(std::string name)
 
 IComponent* Object::getComponent(std::string name)
 {
+	if (m_properties.find(name) == m_properties.end())
+		return nullptr;
+
 	if (m_properties.at(name).type != Type::COMPONENT)
 		return nullptr;
 

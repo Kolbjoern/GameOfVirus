@@ -18,6 +18,8 @@ private:
 
 	sf::RenderWindow* m_window;
 
-	Object m_player;
+	Object m_object1;
+	Object m_object2;
+	Object m_object3;
 	InputComponent m_inputComponent;
 };
