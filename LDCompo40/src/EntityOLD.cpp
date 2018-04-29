@@ -1,19 +1,19 @@
-#include "Entity.h"
+#include "EntityOLD.h"
 
 #include "World.h"
 #include "Globals.h"
 #include "components\ControllerComponent.h"
 #include "components\PhysicsComponent.h"
 
-Entity::Entity()
+EntityOLD::EntityOLD()
 {
 }
 
-Entity::~Entity()
+EntityOLD::~EntityOLD()
 {
 }
 
-void Entity::init(float radius, sf::Color color, ControllerComponent* controllerComponent, PhysicsComponent* physicsComponent)
+void EntityOLD::init(float radius, sf::Color color, ControllerComponent* controllerComponent, PhysicsComponent* physicsComponent)
 {
 	m_body.setRadius(radius);
 	m_body.setFillColor(color);
@@ -26,7 +26,7 @@ void Entity::init(float radius, sf::Color color, ControllerComponent* controller
 	m_physicsComponent = physicsComponent;
 }
 
-void Entity::update(World& world, sf::RenderWindow& window, sf::View& camera, float deltaTime)
+void EntityOLD::update(World& world, sf::RenderWindow& window, sf::View& camera, float deltaTime)
 {
 	if (m_lifeTime != -1.0f)
 	{
@@ -46,82 +46,82 @@ void Entity::update(World& world, sf::RenderWindow& window, sf::View& camera, fl
 		m_physicsComponent->update(*this, world, deltaTime);
 }
 
-void Entity::draw(sf::RenderWindow& window)
+void EntityOLD::draw(sf::RenderWindow& window)
 {
 	window.draw(m_body);
 }
 
-void Entity::setPosition(sf::Vector2f newPosition)
+void EntityOLD::setPosition(sf::Vector2f newPosition)
 {
 	m_body.setPosition(newPosition);
 }
 
-void Entity::setAcceleration(sf::Vector2f newAcceleration)
+void EntityOLD::setAcceleration(sf::Vector2f newAcceleration)
 {
 	m_acceleration = newAcceleration;
 }
 
-void Entity::setVelocity(sf::Vector2f newVelocity)
+void EntityOLD::setVelocity(sf::Vector2f newVelocity)
 {
 	m_velocity = newVelocity;
 }
 
-void Entity::setIsBullet(bool value)
+void EntityOLD::setIsBullet(bool value)
 {
 	m_isBullet = value;
 }
 
-void Entity::setIsMass(bool value)
+void EntityOLD::setIsMass(bool value)
 {
 	m_isMass = value;
 }
 
-void Entity::setIsDead(bool value)
+void EntityOLD::setIsDead(bool value)
 {
 	m_isDead = value;
 }
 
-void Entity::setLifeTime(float time)
+void EntityOLD::setLifeTime(float time)
 {
 	m_lifeTime = time;
 }
 
-sf::Vector2f Entity::getPosition()
+sf::Vector2f EntityOLD::getPosition()
 {
 	return m_body.getPosition();
 }
 
-sf::Vector2f Entity::getAcceleration()
+sf::Vector2f EntityOLD::getAcceleration()
 {
 	return m_acceleration;
 }
 
-sf::Vector2f Entity::getVelocity()
+sf::Vector2f EntityOLD::getVelocity()
 {
 	return m_velocity;
 }
 
-bool Entity::getIsBullet()
+bool EntityOLD::getIsBullet()
 {
 	return m_isBullet;
 }
 
-bool Entity::getIsMass()
+bool EntityOLD::getIsMass()
 {
 	return m_isMass;
 }
 
-bool Entity::getIsDead()
+bool EntityOLD::getIsDead()
 {
 	return m_isDead;
 }
 
-float Entity::getRadius()
+float EntityOLD::getRadius()
 {
 	return m_body.getRadius();
 }
 
-float Entity::getLifeTime()
+float EntityOLD::getLifeTime()
 {
 	return m_lifeTime;
 }

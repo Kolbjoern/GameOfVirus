@@ -2,7 +2,7 @@
 
 #include "utils/FPSCounter.h"
 #include "World.h"
-#include "Entity.h"
+#include "EntityOLD.h"
 #include "objects/Virus.h"
 #include "objects\Gunslinger.h"
 #include "TileShape.h"
@@ -32,8 +32,8 @@ private:
 	Gunslinger m_player;
 	std::vector<Gun> m_guns;
 
-	std::vector<Entity> m_projectiles;
-	std::vector<Entity> m_debris;
+	std::vector<EntityOLD> m_projectiles;
+	std::vector<EntityOLD> m_debris;
 
 	sf::RenderWindow m_window;
 	sf::View m_camera;

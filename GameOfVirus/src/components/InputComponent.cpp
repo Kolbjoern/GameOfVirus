@@ -1,14 +1,19 @@
 #include "InputComponent.h"
 
-#include "../objects/Object.h"
+#include "../objects/Entity.h"
 
 #include <SFML\Window\Keyboard.hpp>
 #include <SFML\System\Vector2.hpp>
 
-void InputComponent::update(Object& object, float deltaTime)
+InputComponent::InputComponent(luabridge::LuaRef& componentTable)
+{
+	
+}
+
+void InputComponent::update(Entity& entity, float deltaTime)
 {
 	static const float MOVE_ACCELERATION = 5.0f;
-	sf::Vector2f newPos(object.getFloat("x"), object.getFloat("y"));
+	sf::Vector2f newPos(entity.getFloat("x"), entity.getFloat("y"));
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		newPos.x -= MOVE_ACCELERATION;
@@ -22,6 +27,6 @@ void InputComponent::update(Object& object, float deltaTime)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		newPos.y += MOVE_ACCELERATION;
 
-	object.addFloat("x", newPos.x);
-	object.addFloat("y", newPos.y);
+	entity.addFloat("x", newPos.x);
+	entity.addFloat("y", newPos.y);
 }

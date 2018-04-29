@@ -24,7 +24,7 @@ void Gunslinger::init(float radius, sf::Vector2f position)
 	m_reloadTimer = 0.0f;
 }
 
-void Gunslinger::update(World& world, sf::RenderWindow& window, sf::View& camera, std::vector<Gun>& guns, std::vector<Entity>& projectiles, float deltaTime)
+void Gunslinger::update(World& world, sf::RenderWindow& window, sf::View& camera, std::vector<Gun>& guns, std::vector<EntityOLD>& projectiles, float deltaTime)
 {
 	m_entity.update(world, window, camera, deltaTime);
 	

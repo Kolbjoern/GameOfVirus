@@ -1,9 +1,12 @@
 #pragma once
 
-#include "IComponent.h"
+#include "Component.h"
 
-class InputComponent : public IComponent
+class Entity;
+
+class InputComponent : public Component
 {
 public:
-	virtual void update(Object& object, float dealtTime) override;
+	InputComponent(luabridge::LuaRef& componentTable);
+	void update(Entity& entity, float dealtTime);
 };

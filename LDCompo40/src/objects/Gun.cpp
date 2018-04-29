@@ -17,7 +17,7 @@ void Gun::init(std::string name, float radius, float fireRate, int numProjectile
 	m_bulletLifeTime = bulletLifeTime;
 }
 
-void Gun::update(sf::Vector2f position, sf::Vector2f direction, std::vector<Entity>& projectiles, float& reloadTimer)
+void Gun::update(sf::Vector2f position, sf::Vector2f direction, std::vector<EntityOLD>& projectiles, float& reloadTimer)
 {
 	if (reloadTimer > m_fireRate)
 	{
@@ -27,7 +27,7 @@ void Gun::update(sf::Vector2f position, sf::Vector2f direction, std::vector<Enti
 
 		for (int i = 0; i < m_numProjectiles; i++)
 		{
-			Entity p;
+			EntityOLD p;
 			p.setPosition(position - sf::Vector2f(m_radius, m_radius));
 
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))

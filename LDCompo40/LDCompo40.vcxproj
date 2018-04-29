@@ -147,7 +147,7 @@
     <ClCompile Include="src\utils\FPSCounter.cpp" />
     <ClCompile Include="src\GameOLD.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Entity.cpp" />
+    <ClCompile Include="src\EntityOLD.cpp" />
     <ClCompile Include="src\objects\Gunslinger.cpp" />
     <ClCompile Include="src\objects\Virus.cpp" />
     <ClCompile Include="src\screens\MenuScreen.cpp" />
@@ -164,7 +164,7 @@
     <ClInclude Include="src\utils\FPSCounter.h" />
     <ClInclude Include="src\GameOLD.h" />
     <ClInclude Include="src\Globals.h" />
-    <ClInclude Include="src\Entity.h" />
+    <ClInclude Include="src\EntityOLD.h" />
     <ClInclude Include="src\objects\Gunslinger.h" />
     <ClInclude Include="src\objects\Virus.h" />
     <ClInclude Include="src\screens\IScreen.h" />

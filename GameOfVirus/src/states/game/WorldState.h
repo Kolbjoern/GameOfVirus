@@ -1,8 +1,7 @@
 #pragma once
 
 #include "IGameState.h"
-#include "../../objects/Object.h";
-#include "../../components/InputComponent.h"
+#include "../../objects/Entity.h";
 
 class WorldState : public IGameState
 {
@@ -18,8 +17,5 @@ private:
 
 	sf::RenderWindow* m_window;
 
-	Object m_object1;
-	Object m_object2;
-	Object m_object3;
-	InputComponent m_inputComponent;
+	Entity* m_ent;
 };

@@ -2,7 +2,7 @@
 
 #include "../Globals.h"
 
-void ActorPhysicsComponent::update(Entity& entity, World& world, float deltaTime)
+void ActorPhysicsComponent::update(EntityOLD& entity, World& world, float deltaTime)
 {
 	if (!entity.getIsBullet())
 	{

@@ -2,7 +2,7 @@
 
 #include <SFML\Window\Keyboard.hpp>
 
-void PlayerControllerComponent::update(Entity& entity, float deltaTime)
+void PlayerControllerComponent::update(EntityOLD& entity, float deltaTime)
 {
 	static const float MOVE_ACCELERATION = 5.0f;
 	sf::Vector2f newAcceleration(entity.getAcceleration());

@@ -1,14 +1,14 @@
 #pragma once
 
-#include "../Entity.h"
+#include "../EntityOLD.h"
 
 class ControllerComponent
 {
 public:
-	virtual void update(Entity& entity, float deltaTime) = 0;
+	virtual void update(EntityOLD& entity, float deltaTime) = 0;
 };
 
 class PlayerControllerComponent : public ControllerComponent
 {
-	virtual void update(Entity& entity, float deltaTime);
+	virtual void update(EntityOLD& entity, float deltaTime);
 };

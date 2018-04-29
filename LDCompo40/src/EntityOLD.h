@@ -10,11 +10,11 @@
 class ControllerComponent;
 class PhysicsComponent;
 
-class Entity
+class EntityOLD
 {
 public:
-	Entity();
-	~Entity();
+	EntityOLD();
+	~EntityOLD();
 
 	void init(float radius, sf::Color color, ControllerComponent* controllerComponent, PhysicsComponent* physicsComponent);
 	void update(World& world, sf::RenderWindow& window, sf::View& camera, float deltaTime);

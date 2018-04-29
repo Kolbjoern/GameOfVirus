@@ -33,9 +33,6 @@
     <ClCompile Include="src\utils\VectorMath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\objects\Gun.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -60,6 +57,9 @@
     <ClCompile Include="src\utils\FPSCounter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\EntityOLD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Globals.h">
@@ -78,9 +78,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\utils\VectorMath.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\objects\Gun.h">
@@ -108,6 +105,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\utils\FPSCounter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntityOLD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

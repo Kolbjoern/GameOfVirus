@@ -1,13 +1,13 @@
 #pragma once
 
 #include "../World.h"
-#include "../Entity.h"
+#include "../EntityOLD.h"
 
 class Gun
 {
 public:
 	void init(std::string name, float radius, float fireRate, int numProjectiles, float spread, float speed, float bulletLifeTime);
-	void update(sf::Vector2f position, sf::Vector2f direction, std::vector<Entity>& projectiles, float& reloadTimer);
+	void update(sf::Vector2f position, sf::Vector2f direction, std::vector<EntityOLD>& projectiles, float& reloadTimer);
 
 	const std::string getName();
 

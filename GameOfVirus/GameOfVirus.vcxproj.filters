@@ -36,10 +36,19 @@
     <ClCompile Include="src\utils\LoopTimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\objects\Object.cpp">
+    <ClCompile Include="src\components\InputComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\components\InputComponent.cpp">
+    <ClCompile Include="src\objects\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\LuaFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\GraphicsComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\EntityFunctions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,14 +74,26 @@
     <ClInclude Include="src\utils\LoopTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\objects\Object.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\components\InputComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\components\IComponent.h">
+    <ClInclude Include="src\components\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\components\GraphicsComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\LuaFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\EntityFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="scripts\objects\objectList.lua" />
   </ItemGroup>
 </Project>

@@ -76,16 +76,24 @@
     <OutDir>$(SolutionDir)bin\$(ProjectName)\$(Platform)\$(Configuration)</OutDir>
     <IntDir>$(SolutionDir)bin\intermediates\$(ProjectName)\$(Platform)\$(Configuration)</IntDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)bin\$(ProjectName)\$(Platform)\$(Configuration)</OutDir>
+    <IntDir>$(SolutionDir)bin\intermediates\$(ProjectName)\$(Platform)\$(Configuration)</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)bin\$(ProjectName)\$(Platform)\$(Configuration)</OutDir>
+    <IntDir>$(SolutionDir)bin\intermediates\$(ProjectName)\$(Platform)\$(Configuration)</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)libs\SFML-2.4.2\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\SFML-2.4.2\include;$(SolutionDir)libs\lua53\include;$(SolutionDir)libs\LuaBridge\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\SFML-2.4.2\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-audio-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\SFML-2.4.2\lib;$(SolutionDir)libs\lua53\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-audio-d.lib;liblua53.a;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -93,7 +101,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\SFML-2.4.2\include;$(SolutionDir)libs\lua53\include;$(SolutionDir)libs\LuaBridge\include</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\SFML-2.4.2\lib;$(SolutionDir)libs\lua53\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-audio-d.lib;liblua53.a;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -102,13 +115,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)libs\SFML-2.4.2\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\SFML-2.4.2\include;$(SolutionDir)libs\lua53\include;$(SolutionDir)libs\LuaBridge\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\SFML-2.4.2\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-audio.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\SFML-2.4.2\lib;$(SolutionDir)libs\lua53\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-audio.lib;liblua53.a;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -118,33 +131,45 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\SFML-2.4.2\include;$(SolutionDir)libs\lua53\include;$(SolutionDir)libs\LuaBridge\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\SFML-2.4.2\lib;$(SolutionDir)libs\lua53\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-audio.lib;liblua53.a;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\components\GraphicsComponent.cpp" />
     <ClCompile Include="src\components\InputComponent.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\managers\StateMachine.cpp" />
-    <ClCompile Include="src\objects\Object.cpp" />
+    <ClCompile Include="src\objects\Entity.cpp" />
     <ClCompile Include="src\states\game\MenuState.cpp" />
     <ClCompile Include="src\states\game\WorldState.cpp" />
+    <ClCompile Include="src\utils\EntityFunctions.cpp" />
     <ClCompile Include="src\utils\LoopTimer.cpp" />
+    <ClCompile Include="src\utils\LuaFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\components\IComponent.h" />
+    <ClInclude Include="src\components\Component.h" />
+    <ClInclude Include="src\components\GraphicsComponent.h" />
     <ClInclude Include="src\components\InputComponent.h" />
     <ClInclude Include="src\Game.h" />
-    <ClInclude Include="src\objects\Object.h" />
+    <ClInclude Include="src\objects\Entity.h" />
     <ClInclude Include="src\states\game\IGameState.h" />
     <ClInclude Include="src\managers\StateMachine.h" />
     <ClInclude Include="src\states\game\MenuState.h" />
     <ClInclude Include="src\states\game\NullState.h" />
     <ClInclude Include="src\states\game\WorldState.h" />
+    <ClInclude Include="src\utils\EntityFunctions.h" />
     <ClInclude Include="src\utils\LoopTimer.h" />
+    <ClInclude Include="src\utils\LuaFunctions.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="scripts\objects\objectList.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
